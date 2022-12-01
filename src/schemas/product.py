@@ -1,12 +1,23 @@
+from pydantic import BaseModel
+from typing import Optional
 
 
-class CreateProduct(object):
+class BaseProduct(BaseModel):
+    name: str
+    amount: Optional[int]
+
+
+class CreateProduct(BaseProduct):
     ...
 
 
-class PutProduct(CreateProduct):
-    ...
+class PutProduct(BaseProduct):
+    uuid: str
 
 
-class Product:
-    ...
+class Product(BaseProduct):
+    id: int
+    uuid: str
+
+    class Config:
+        orm_mode = True
