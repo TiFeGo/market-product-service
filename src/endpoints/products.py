@@ -67,11 +67,11 @@ async def put_product(
         product: schemas.PutProduct,
         database: Session = Depends(get_db)
 ):
-    if service.exists(product_uuid, database):
+    if await service.exists(product_uuid, database):
         content = await service.update_product(product, database)
         content = jsonable_encoder(schemas.Product(**content.__dict__))
         return JSONResponse(content=content, status_code=status.HTTP_202_ACCEPTED)
     else:
         content = await service.create_product(product, database)
         content = jsonable_encoder(schemas.Product(**content.__dict__))
-        return JSONResponse(content=content.json(), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=content, status_code=status.HTTP_201_CREATED)

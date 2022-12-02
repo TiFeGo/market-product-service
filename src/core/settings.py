@@ -23,10 +23,6 @@ class Settings(BaseSettings):
 
     TEST_DATABASE_NAME: str
 
-    SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
-
     @classmethod
     def create(cls) -> 'Settings':
         app_env = os.getenv('APP_ENV', 'DEBUG')

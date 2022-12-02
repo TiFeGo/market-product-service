@@ -1,0 +1,38 @@
+version: '3'
+
+volumes:
+  product_test_db:
+
+services:
+
+#  user_service:
+#    container_name: ns-user-service
+#    build:
+#      dockerfile: Dockerfile
+#      context: .
+#    links:
+#      - user_db
+#    ports:
+#      - '8080:8000'
+#    depends_on:
+#      - user_db
+#    environment:
+#      DATABASE_HOST: user_db
+#      DATABASE_PORT: 5432
+
+
+  product_db:
+    image: postgres
+    restart: always
+    container_name: ns-product-db
+    env_file:
+      - .env
+    ports:
+      - '32700:5432'
+    volumes:
+      - product_test_db:/var/lib/postgresql/data
+#      - ./config/postgresql:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${TEST_DATABASE_NAME}
