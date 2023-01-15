@@ -5,20 +5,18 @@ volumes:
 
 services:
 
-#  user_service:
-#    container_name: ns-user-service
-#    build:
-#      dockerfile: Dockerfile
-#      context: .
-#    links:
-#      - user_db
-#    ports:
-#      - '8080:8000'
-#    depends_on:
-#      - user_db
-#    environment:
-#      DATABASE_HOST: user_db
-#      DATABASE_PORT: 5432
+  product_service:
+    container_name: ns-product-service
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - '8080:8000'
+    depends_on:
+      - product_db
+    environment:
+      DATABASE_HOST: product_db
+      DATABASE_PORT: 5432
 
 
   product_db:
