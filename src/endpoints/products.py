@@ -6,6 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from src.db.database import get_db
 from src.schemas import product as schemas
 from src.endpoints import service
+from src.core import tracing_tools
 
 product_router = APIRouter(
     tags=['Products'],
@@ -14,6 +15,7 @@ product_router = APIRouter(
 
 
 @product_router.get('/filter', status_code=status.HTTP_200_OK, response_model=list[schemas.Product])
+@tracing_tools.trace_it('Endpoint', 'Filter product')
 async def filter_product(
         q: str,
         filter_param: str = 'search',
@@ -31,6 +33,7 @@ async def filter_product(
 
 
 @product_router.get('/', status_code=status.HTTP_200_OK, response_model=list[schemas.Product])
+@tracing_tools.trace_it('Endpoint', 'Get products')
 async def get_products(
         skip: int = 0,
         limit: int = 10,
@@ -44,6 +47,7 @@ async def get_products(
 
 
 @product_router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.Product)
+@tracing_tools.trace_it('Endpoint', 'Create product')
 async def create_product(
         product: schemas.CreateProduct,
         database: Session = Depends(get_db)
@@ -52,6 +56,7 @@ async def create_product(
 
 
 @product_router.delete('/{product_uuid}', status_code=status.HTTP_204_NO_CONTENT)
+@tracing_tools.trace_it('Endpoint', 'Delete product')
 async def delete_product(
         product_uuid: str,
         database: Session = Depends(get_db)
@@ -62,6 +67,7 @@ async def delete_product(
 
 
 @product_router.put('/{product_uuid}', status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Product)
+@tracing_tools.trace_it('Endpoint', 'Put product')
 async def put_product(
         product_uuid: str,
         product: schemas.PutProduct,

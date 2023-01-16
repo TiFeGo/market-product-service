@@ -7,8 +7,10 @@ from sqlalchemy.orm import Session
 
 from src.models.product import Product
 from src.schemas import product as schemas
+from src.core import tracing_tools
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def filter_product(
         q: str,
         *,
@@ -21,6 +23,7 @@ async def filter_product(
     return products
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def get_all(
         database: Session,
         *,
@@ -30,6 +33,7 @@ async def get_all(
     return database.query(Product).offset(skip).limit(limit).all()
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def create_product(
         product: Union[schemas.CreateProduct, schemas.PutProduct],
         database: Session
@@ -45,6 +49,7 @@ async def create_product(
     return new_product
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def delete_product(
         product_uuid: str,
         database: Session
@@ -54,6 +59,7 @@ async def delete_product(
     return deleted
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def update_product(
         product: schemas.PutProduct,
         database: Session,
@@ -64,5 +70,6 @@ async def update_product(
     return database.query(Product).filter(product.uuid == Product.uuid).first()
 
 
+@tracing_tools.trace_it('Service', 'Filter product')
 async def exists(product_uuid: str, database: Session) -> bool:
     return database.query(Product).filter(Product.uuid == product_uuid).first() is not None

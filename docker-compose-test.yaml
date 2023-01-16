@@ -11,23 +11,16 @@ services:
       dockerfile: Dockerfile.test
       context: .
     depends_on:
-      - product_db_test
-    environment:
-      DATABASE_HOST: product_db_test
-      DATABASE_PORT: 5432
+      - product_db
 
-
-  product_db_test:
+  product_db:
     image: postgres
     restart: always
     container_name: ns-product-db-test
     env_file:
       - .env
-    ports:
-      - '32700:5432'
     volumes:
       - product_test_db:/var/lib/postgresql/data
-#      - ./config/postgresql:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_USER=${DATABASE_USERNAME}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
