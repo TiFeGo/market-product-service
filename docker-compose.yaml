@@ -1,7 +1,12 @@
-version: '3'
+version: '3.9'
 
 volumes:
   product_db:
+
+networks:
+  network:
+    name: microservices
+    external: true
 
 services:
 
@@ -11,22 +16,19 @@ services:
       dockerfile: Dockerfile
       context: .
     ports:
-      - '8080:8000'
+      - '8001:8000'
     depends_on:
       - product_db
     environment:
       DATABASE_HOST: product_db
       DATABASE_PORT: 5432
 
-
   product_db:
     image: postgres
     restart: always
     container_name: ns-product-db
     env_file:
-      - .env
-    ports:
-      - '32700:5432'
+      - .env  
     volumes:
       - product_db:/var/lib/postgresql/data
 #      - ./config/postgresql:/docker-entrypoint-initdb.d

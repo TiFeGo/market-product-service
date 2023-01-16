@@ -19,5 +19,5 @@ ENV PATH=/venv/bin:$PATH
 RUN apk --no-cache --update add libffi libressl postgresql-libs gcc libc-dev
 
 COPY . .
-
+CMD ["alembic", "upgrade", "head"]
 CMD ["uvicorn", "src.main:app", "--reload", "--host", "0.0.0.0"]
